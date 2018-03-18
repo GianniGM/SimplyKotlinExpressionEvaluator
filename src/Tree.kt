@@ -12,20 +12,16 @@ data class Node<out T>(
 ) : Tree<T> {
     override fun toString() =
             if (this.left !is Empty || this.right !is Empty)
-                "(${this.value}, l-> ${this.left}, r-> ${this.right})"
-            else "${this.value}"
+                "(val:\"${this.value}\", l-> ${this.left}, r-> ${this.right})"
+            else "val:\"${this.value}\""
 }
 
-
-fun treeEvaluator() {
-    val string = Node(4,
-            Node(1),
-            Node(2,
-                    right =     Node(3)
-            )
-    ).toString()
-    println(string)
+fun <T,C> Tree<T>.apply(transform: (T) -> C): Tree<C> = when (this) {
+    is Empty -> Empty()
+    is Node -> Node(transform(this.value), this.left.apply(transform), this.right.apply(transform))
+    else -> throw UnsupportedOperationException("Operation Failed")
 }
+
 
 
 

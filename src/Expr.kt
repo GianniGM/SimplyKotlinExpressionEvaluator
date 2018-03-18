@@ -1,50 +1,49 @@
 interface Expr
 
-class Num(val value: Int) : Expr
-class Bool(val value: Boolean) : Expr
-
-class Not(val value: Expr) : Expr
-class Equal(val first: Expr, val second: Expr) : Expr
-class Minor(val first: Expr, val second: Expr) : Expr
-class Major(val first: Expr, val second: Expr) : Expr
-
-class Elevation(val base: Expr, val exp: Expr) : Expr
-class Sum(val first: Expr, val second: Expr) : Expr
-class Minus(val first: Expr, val second: Expr) : Expr
-class Multiply(val first: Expr, val second: Expr) : Expr
-class IfThenElse(val statement: Expr, val then: Expr, val elze: Expr) : Expr
-
-fun expressionEvaluator() {
-
-//     5 + (2^3)
-    val sumAndElevation = Sum(Num(5), Elevation(Num(2), Num(3)))
-
-//    if (5 + 2 == 8)
-//        2^3
-//    else
-//        20 - 11
-
-    val b = IfThenElse(
-            Equal(
-                    Sum(
-                            Num(5),
-                            Num(2)
-                    ),
-                    Num(8)
-            ),
-            Elevation(
-                    Num(2),
-                    Num(3)
-            ),
-            Minus(
-                    Num(20),
-                    Num(11)
-            )
-    )
-
-
-    println("evaluated ${eval(b)}")
+class Num(val value: Int) : Expr {
+    override fun toString() = "$value"
 }
+
+class Bool(val value: Boolean) : Expr {
+    override fun toString() = "$value"
+}
+
+class Not(val value: Expr) : Expr {
+    override fun toString() = "~$value"
+}
+
+class Equal(val first: Expr, val second: Expr) : Expr {
+    override fun toString() = "$first == $second"
+}
+
+class Minor(val first: Expr, val second: Expr) : Expr {
+    override fun toString() = "$first < $second"
+}
+
+class Major(val first: Expr, val second: Expr) : Expr {
+    override fun toString() = "$first > $second"
+}
+
+class Elevation(val base: Expr, val exp: Expr) : Expr {
+    override fun toString() = "($base^$exp)"
+}
+
+class Sum(val first: Expr, val second: Expr) : Expr {
+    override fun toString() = "$first + $second"
+}
+
+class Minus(val first: Expr, val second: Expr) : Expr {
+    override fun toString() = "$first - $second"
+}
+
+class Multiply(val first: Expr, val second: Expr) : Expr {
+    override fun toString() = "$first * $second"
+}
+
+class IfThenElse(val statement: Expr, val then: Expr, val elze: Expr) : Expr {
+    override fun toString() = "if ($statement) then $then else $elze"
+}
+
 
 infix fun Int.elevate(exp: Int): Int {
     var r = this
